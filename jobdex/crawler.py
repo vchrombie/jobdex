@@ -1,9 +1,10 @@
 # scraper.py
 
+import json
 import click
 import requests
+
 from bs4 import BeautifulSoup
-import json
 
 from jobdex.scraper import SCRAPERS
 from jobdex.scrapers import *
@@ -11,22 +12,52 @@ from jobdex.scrapers import *
 
 def scrape_jobs(config):
     """
-    Scrape jobs from the webpage.
+    Scrape jobs from the webpage, handling pagination.
     """
     print(f"scraping {config['name']} ...\n")
 
-    response = requests.get(config['url'], params=config['params'])
+    pagination = config.get('pagination')
+    if pagination:
+        param_name = pagination.get('param_name', 'page')
+        start_page = pagination.get('start', 1)
+        max_pages = pagination.get('max_pages', 5)
+    else:
+        param_name = None
+        start_page = 1
+        max_pages = 1
 
-    soup = BeautifulSoup(response.content, 'html.parser')
+    current_page = start_page
 
-    scraper_function = SCRAPERS.get(config['scraper'])
+    while current_page <= max_pages:
+        params = config.get('params', {}).copy()
 
-    if scraper_function is None:
-        print(f"No scraper found for {config['name']}.")
-        return
+        if param_name:
+            params[param_name] = current_page
 
-    for job in scraper_function(soup):
-        yield job
+        response = requests.get(config['url'], params=params)
+
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        scraper_function = SCRAPERS.get(config['scraper'])
+
+        if scraper_function is None:
+            print(f"No scraper found for {config['name']}.")
+            return
+
+        jobs_found = False
+        for job in scraper_function(soup):
+            yield job
+            jobs_found = True
+
+        if not jobs_found:
+            # No jobs found on this page, break the loop
+            break
+
+        current_page += 1
+
+        if not param_name:
+            # If no pagination parameter, process only one page
+            break
 
 
 def find_jobs(config):
