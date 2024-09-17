@@ -1,0 +1,12 @@
+{
+    "apple": {
+            "name": "apple careers",
+            "url": "https://jobs.apple.com/en-us/search",
+            "params": {
+                "search": "software engineer",
+                "sort": "newest",
+                "location": "united-states-USA"
+            },
+            "scraper": "apple"
+        }
+}

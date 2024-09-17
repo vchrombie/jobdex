@@ -5,8 +5,16 @@ description = ""
 authors = ["Venu Vardhan Reddy Tekula <vt2182@nyu.edu>"]
 readme = "README.md"
 
+
+[tool.poetry.scripts]
+jobdex = 'jobdex.crawler:main'
+
+
 [tool.poetry.dependencies]
 python = "^3.9"
+beautifulsoup4 = "^4.12.3"
+requests = "^2.32.3"
+click = "^8.1.7"
 
 
 [build-system]
