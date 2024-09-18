@@ -9,11 +9,12 @@ git clone https://github.com/vchrombie/jobdex
 cd jobdex
 poetry install
 poetry shell
+jobdex fetch -f apple
 ```
 
 ## Commands
 
-```bash
+```
 $ jobdex --help
 Usage: jobdex [OPTIONS] COMMAND [ARGS]...
 

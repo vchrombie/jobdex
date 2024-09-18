@@ -22,7 +22,7 @@ def scrape_jobs(config):
     """
     Scrape jobs from the webpage, handling pagination.
     """
-    print(f"scraping {config['name']} ...\n")
+    click.echo(f"scraping {config['name']} ...\n")
 
     pagination = config.get('pagination')
     if pagination:
@@ -49,7 +49,7 @@ def scrape_jobs(config):
         scraper_function = SCRAPERS.get(config['scraper'])
 
         if scraper_function is None:
-            print(f"No scraper found for {config['name']}.")
+            click.echo(f"No scraper found for {config['name']}.")
             return
 
         jobs_found = False
@@ -77,14 +77,14 @@ def find_jobs(config):
     # Output the results
     count = 0
     for job in jobs_today:
-        print(f"position name: {job['position_name']}")
-        print(f"url: {job['url']}")
-        print(f"date posted: {job['date_posted']}")
-        print()
+        click.echo(job['position_name'])
+        click.echo(job['url'])
+        click.echo(job['date_posted'])
+        click.echo()
 
         count += 1
 
-    print(f"found {count} jobs today.")
+    click.echo(f"found {count} jobs today.")
 
 
 @click.group()
