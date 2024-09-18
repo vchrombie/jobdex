@@ -79,21 +79,48 @@ def find_jobs(config):
     print(f"found {count} jobs today.")
 
 
-@click.command()
-@click.option('-f', '--fetch', multiple=True, help='specify the websites to fetch jobs')
-def main(fetch):
+@click.group()
+def main():
+    """
+    jobdex cli application.
+    """
+    pass
 
+
+@main.command()
+@click.option('-f', '--find', multiple=True,
+              help='Specify the websites to fetch jobs from.')
+def fetch(find):
+    """
+    Fetch jobs from specified websites.
+    """
     # Load configuration
     with open('jobdex/config.json') as f:
         config = json.load(f)
 
-    sites = list(fetch) if fetch else None
+    sites = list(find) if find else None
 
     if not sites:
         sites = config.keys()
 
     for site in sites:
-        find_jobs(config[site])
+        if site in config:
+            find_jobs(config[site])
+        else:
+            click.echo(f"'{site}' not supported.")
+
+
+@main.command()
+def ls():
+    """
+    List supported websites to fetch jobs.
+    """
+    # Load configuration
+    with open('jobdex/config.json') as f:
+        config = json.load(f)
+
+    for site in config.keys():
+        click.echo(site)
 
 
 if __name__ == "__main__":
