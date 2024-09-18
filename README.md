@@ -2,7 +2,7 @@
 
 CLI tool to scrape jobs that are posted today from various job portals
 
-# Usage
+## Usage
 
 ```bash
 git clone https://github.com/vchrombie/jobdex
@@ -11,7 +11,7 @@ poetry install
 poetry shell
 ```
 
-# Commands
+## Commands
 
 ```bash
 $ jobdex --help

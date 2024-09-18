@@ -10,6 +10,14 @@ from jobdex.scraper import SCRAPERS
 from jobdex.scrapers import *
 
 
+def load_config(config_file='jobdex/config.json'):
+    """
+    Load the configuration file.
+    """
+    with open(config_file) as f:
+        return json.load(f)
+
+
 def scrape_jobs(config):
     """
     Scrape jobs from the webpage, handling pagination.
@@ -94,9 +102,9 @@ def fetch(find):
     """
     Fetch jobs from specified websites.
     """
+
     # Load configuration
-    with open('jobdex/config.json') as f:
-        config = json.load(f)
+    config = load_config()
 
     sites = list(find) if find else None
 
@@ -115,9 +123,9 @@ def ls():
     """
     List supported websites to fetch jobs.
     """
+
     # Load configuration
-    with open('jobdex/config.json') as f:
-        config = json.load(f)
+    config = load_config()
 
     for site in config.keys():
         click.echo(site)
