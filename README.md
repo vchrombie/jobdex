@@ -28,6 +28,17 @@ Commands:
   ls     List supported websites to fetch jobs.
 ```
 
+## Roadmap
+
+- [ ] Add scrapers for more websites
+  - [ ] microsoft
+  - [ ] amazon
+  - [ ] netflix
+  - [ ] . . .
+- [ ] Fetch from websites which use JS/jQuery
+- [ ] Add the role as flag, not in the config
+- [ ] Add tests
+
 ## License
 
 MIT
